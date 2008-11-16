@@ -1,13 +1,13 @@
-package se.kth.seds.mi.core.sharedsecret;
+package se.kth.seds.mi.core.crypto.sharedsecret;
 
 import org.apache.catalina.util.HexUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import se.kth.seds.mi.core.common.HashAlgorithm;
 import se.kth.seds.mi.core.exceptions.OperationFailedException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.logging.Logger;
-import java.util.logging.Level;
 
 /**
  * @author Shanbo Li
@@ -16,7 +16,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
     private String sharedSecret;
     private String message;
     private HashAlgorithm hashAlgorithm;
-
+    public final Log logger = LogFactory.getLog(getClass());
     public static final HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA_1;
 
     /**
@@ -93,7 +93,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
         try {
             sha = MessageDigest.getInstance(hashAlgorithm.getSharedSecretAlgorithm());
         } catch (NoSuchAlgorithmException e) {
-            Logger.getLogger(SharedSecretCryptoImpl.class.getName()).log(Level.SEVERE,"Can not get the algrothm, check if your JRE installed correctly...",e);
+            logger.error("Can not get the algrothm, check if your JRE installed correctly...",e);
             throw new OperationFailedException(e);
         }
         byte[] plainText = HexUtils.convert(sb.toString());

@@ -1,9 +1,7 @@
-package se.kth.seds.mi.core.sharedsecret;
+package se.kth.seds.mi.core.crypto.sharedsecret;
 
 import se.kth.seds.mi.core.common.HashAlgorithm;
 import se.kth.seds.mi.core.exceptions.OperationFailedException;
-
-import java.security.NoSuchAlgorithmException;
 
 /**
  * @author Shanbo Li

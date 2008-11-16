@@ -1,4 +1,4 @@
-package se.kth.seds.mi.core.keypair;
+package se.kth.seds.mi.core.crypto.keypair;
 
 import se.kth.seds.mi.core.common.HashAlgorithm;
 import se.kth.seds.mi.core.exceptions.OperationFailedException;
