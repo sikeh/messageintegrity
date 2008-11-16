@@ -1,4 +1,4 @@
-package se.kth.seds.mi.core.keypair;
+package se.kth.seds.mi.core.crypto.keypair;
 
 import org.apache.catalina.util.HexUtils;
 import se.kth.seds.mi.core.common.HashAlgorithm;
