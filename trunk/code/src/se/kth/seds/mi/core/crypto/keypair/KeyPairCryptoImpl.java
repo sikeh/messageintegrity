@@ -1,6 +1,8 @@
 package se.kth.seds.mi.core.crypto.keypair;
 
 import org.apache.catalina.util.HexUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import se.kth.seds.mi.core.common.HashAlgorithm;
 import se.kth.seds.mi.core.exceptions.OperationFailedException;
 
@@ -21,16 +23,15 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
     private HashAlgorithm hashAlgorithm;
     private static final HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA_1;
 
-    public static final Logger logger = Logger.getLogger(KeyPairCryptoImpl.class.getName());
+    public final Log logger = LogFactory.getLog(getClass());
 
     public KeyPairCryptoImpl(String message) {
-        this.message = message;
-        this.hashAlgorithm = DEFAULT_HASH_ALGORITHM;
+        this(message, DEFAULT_HASH_ALGORITHM);
     }
 
     public KeyPairCryptoImpl(String message, HashAlgorithm hashAlgorithm) {
-        this.message = message;
-        this.hashAlgorithm = hashAlgorithm;
+        this.setMessage(message);
+        this.setHashAlgorithm(hashAlgorithm);
     }
 
     public String getMessage() {
@@ -38,6 +39,9 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
     }
 
     public void setMessage(String message) {
+        if (message == null)
+            throw new NullPointerException("message can not be null");
+
         this.message = message;
     }
 
@@ -46,23 +50,27 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
     }
 
     public void setHashAlgorithm(HashAlgorithm hashAlgorithm) {
+        if (hashAlgorithm == null)
+            throw new NullPointerException("Hash Algorithm can not be null");
+
         this.hashAlgorithm = hashAlgorithm;
     }
 
-    public String sign(PrivateKey priv) throws OperationFailedException {
+    public String sign(PrivateKey privateKey) throws OperationFailedException {
+        if (privateKey == null) throw new NullPointerException("Private key can not be null");
         Signature dsa;
         try {
             dsa = Signature.getInstance(hashAlgorithm.getKeyPairAlgorithm());
         } catch (NoSuchAlgorithmException e) {
-            logger.log(Level.SEVERE, "Can not get the algrothm, check if your JRE installed correctly...", e);
+            logger.error("Can not get the algrothm, check if your JRE installed correctly...", e);
             throw new OperationFailedException(e);
         }
 
         /* Initializing the object with a private key */
         try {
-            dsa.initSign(priv);
+            dsa.initSign(privateKey);
         } catch (InvalidKeyException e) {
-            logger.log(Level.SEVERE, "Invalid Key", e);
+            logger.error("Invalid Key", e);
             throw new OperationFailedException(e);
         }
 
@@ -77,25 +85,28 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
             byte[] sig = dsa.sign();
             return HexUtils.convert(sig);
         } catch (SignatureException e) {
-            logger.log(Level.SEVERE, "SignatureException, sign failed", e);
+            logger.error("SignatureException, sign failed", e);
             throw new OperationFailedException(e);
         }
     }
 
     public boolean verify(PublicKey publicKey, String mac) throws OperationFailedException {
+        if (publicKey == null) throw new NullPointerException("public key can not be null");
+        if (mac == null) throw new NullPointerException("MAC can not be null");
+
         /* Initializing the object with the public key */
         Signature dsa;
         try {
             dsa = Signature.getInstance(hashAlgorithm.getKeyPairAlgorithm());
         } catch (NoSuchAlgorithmException e) {
-            logger.log(Level.SEVERE, "Can not get the algrothm, check if your JRE installed correctly...", e);
+            logger.error("Can not get the algrothm, check if your JRE installed correctly...", e);
             throw new OperationFailedException(e);
         }
 
         try {
             dsa.initVerify(publicKey);
         } catch (InvalidKeyException e) {
-            logger.log(Level.SEVERE, "Invalid Key", e);
+            logger.error("Invalid Key", e);
             throw new OperationFailedException(e);
         }
 

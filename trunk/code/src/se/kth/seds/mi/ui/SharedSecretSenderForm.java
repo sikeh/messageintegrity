@@ -1,13 +1,12 @@
 package se.kth.seds.mi.ui;
 
-import se.kth.seds.mi.core.sharedsecret.SharedSecretCrypto;
+import se.kth.seds.mi.core.crypto.sharedsecret.SharedSecretCrypto;
 import se.kth.seds.mi.communication.Client;
 import se.kth.seds.mi.communication.MessageWithMac;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.security.NoSuchAlgorithmException;
 import java.io.IOException;
 
 /**
