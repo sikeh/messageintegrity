@@ -38,12 +38,9 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
      * @param hashAlgorithm the name of the algorithm requested.
      */
     public SharedSecretCryptoImpl(String sharedSecret, String message, HashAlgorithm hashAlgorithm) {
-        if (sharedSecret == null) throw new NullPointerException("sharedSecret can NOT be null");
-        if (message == null) throw new NullPointerException("message can NOT be null");
-        if (hashAlgorithm == null) throw new NullPointerException("algorithm can NOT be null");
-        this.sharedSecret = sharedSecret;
-        this.message = message;
-        this.hashAlgorithm = hashAlgorithm;
+        this.setSharedSecret(sharedSecret);
+        this.setMessage(message);
+        this.setHashAlgorithm(hashAlgorithm);
     }
 
     /**
@@ -76,11 +73,18 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
         this.message = message;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public HashAlgorithm getHashAlgorithm() {
         return hashAlgorithm;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public void setHashAlgorithm(HashAlgorithm hashAlgorithm) {
+        if (hashAlgorithm == null) throw new NullPointerException("Hash algorithm can not be null");
         this.hashAlgorithm = hashAlgorithm;
     }
 
@@ -93,7 +97,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
         try {
             sha = MessageDigest.getInstance(hashAlgorithm.getSharedSecretAlgorithm());
         } catch (NoSuchAlgorithmException e) {
-            logger.error("Can not get the algrothm, check if your JRE installed correctly...",e);
+            logger.error("Can not get the algrothm, check if your JRE installed correctly...", e);
             throw new OperationFailedException(e);
         }
         byte[] plainText = HexUtils.convert(sb.toString());
