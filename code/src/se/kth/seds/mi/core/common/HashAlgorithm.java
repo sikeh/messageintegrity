@@ -6,10 +6,10 @@ package se.kth.seds.mi.core.common;
 public enum HashAlgorithm {
     MD2("MD2", "MD2withRSA"),
     MD5("MD5", "MD5withRSA"),
-    SHA_1("SHA-1", "SHA1withRSA"),
-    SHA_256("SHA-256", "SHA256withRSA"),
-    SHA_384("SHA-384", "SHA384withRSA"),
-    SHA_512("SHA-512", "SHA512withRSA"),;
+    SHA1("SHA-1", "SHA1withRSA"),
+    SHA256("SHA-256", "SHA256withRSA"),
+    SHA384("SHA-384", "SHA384withRSA"),
+    SHA512("SHA-512", "SHA512withRSA"),;
 
     private String keyPairAlgorithm;
     private String sharedSecretAlgorithm;
@@ -29,7 +29,8 @@ public enum HashAlgorithm {
 
     @Override
     public String toString(){
-        return sharedSecretAlgorithm;
+        return sharedSecretAlgorithm.replace("-","");
     }
+   
 }
 

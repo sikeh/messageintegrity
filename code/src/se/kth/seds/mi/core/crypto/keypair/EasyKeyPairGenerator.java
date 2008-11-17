@@ -14,6 +14,7 @@ import java.util.logging.Level;
 import java.io.Serializable;
 
 import se.kth.seds.mi.core.exceptions.OperationFailedException;
+import se.kth.seds.mi.core.common.HashAlgorithm;
 
 /**
  * A key pair generator.
