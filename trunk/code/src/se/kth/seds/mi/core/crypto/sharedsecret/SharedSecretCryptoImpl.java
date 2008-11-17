@@ -43,6 +43,9 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
         this.setHashAlgorithm(hashAlgorithm);
     }
 
+    public SharedSecretCryptoImpl() {
+    }
+
     /**
      * {@inheritDoc}
      */

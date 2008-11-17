@@ -29,5 +29,7 @@
         <property name="host" value="${tcp.host}"/>
         <property name="port" value="${tcp.port}"/>
     </bean>
-    
+
+    <bean id="sharedSecretCrypto" class="se.kth.seds.mi.core.crypto.sharedsecret.SharedSecretCryptoImpl"/>
+
 </beans>

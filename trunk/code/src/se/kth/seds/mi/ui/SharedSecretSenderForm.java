@@ -1,6 +1,8 @@
 package se.kth.seds.mi.ui;
 
 import se.kth.seds.mi.core.crypto.sharedsecret.SharedSecretCrypto;
+import se.kth.seds.mi.core.common.HashAlgorithm;
+import se.kth.seds.mi.core.exceptions.OperationFailedException;
 import se.kth.seds.mi.communication.Client;
 import se.kth.seds.mi.communication.MessageWithMac;
 
@@ -8,6 +10,7 @@ import javax.swing.*;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,6 +35,9 @@ public class SharedSecretSenderForm implements Form {
     private static String sharedSecret;
 
     public SharedSecretSenderForm() {
+
+        ComboBoxModel comboBoxModel = new DefaultComboBoxModel(HashAlgorithm.values());
+        comboBoxHashFunc.setModel(comboBoxModel);
         
         textFieldSharedSecret.setText(sharedSecret);
 
@@ -39,33 +45,34 @@ public class SharedSecretSenderForm implements Form {
             public void actionPerformed(ActionEvent e) {
                 sharedSecret = textFieldSharedSecret.getText();
                 String message = textAreaMessage.getText();
-                String algorithm = (String) comboBoxHashFunc.getSelectedItem();
+                HashAlgorithm algorithm = (HashAlgorithm) comboBoxHashFunc.getSelectedItem();
                 if (sharedSecret.trim().equals("")) {
                     JOptionPane.showMessageDialog(panel1, "shard secret is required!", "Validation Error", JOptionPane.ERROR_MESSAGE);
                 } else if (message.trim().equals("")) {
                     JOptionPane.showMessageDialog(panel1, "message is required!", "Validation Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-//                    sharedSecretCrypto.setMessage(message);
-//                    sharedSecretCrypto.setSharedSecret(sharedSecret);
-//                    sharedSecretCrypto.setAlgorithm(algorithm);
-//                    String mac = null;
-//                    try {
-//                        mac = sharedSecretCrypto.createMAC();
-//                    } catch (NoSuchAlgorithmException e1) {
-//                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//                        JOptionPane.showMessageDialog(panel1, e1.getMessage(), "Crypto Exception", JOptionPane.ERROR_MESSAGE);
-//                    }
-//                    if (mac != null) {
-//                        MessageWithMac messageWithMac = new MessageWithMac();
-//                        messageWithMac.setMac(mac);
-//                        messageWithMac.setMessage(message);
-//                        try {
-//                            client.send(messageWithMac);
-//                        } catch (IOException e1) {
-//                            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-//                            JOptionPane.showMessageDialog(panel1, e1.getMessage(), "Network Exception", JOptionPane.ERROR_MESSAGE);
-//                        }
-//                    }
+                    sharedSecretCrypto.setMessage(message);
+                    sharedSecretCrypto.setSharedSecret(sharedSecret);
+                    sharedSecretCrypto.setHashAlgorithm(algorithm);
+                    String mac = null;
+                    try {
+                        mac = sharedSecretCrypto.createMAC();
+                        textAreaGeneratedHash.setText(mac);
+                    } catch (OperationFailedException e1) {
+                        e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        JOptionPane.showMessageDialog(panel1, e1.getMessage(), "Crypto Exception", JOptionPane.ERROR_MESSAGE);
+                    }
+                    if (mac != null) {
+                        MessageWithMac messageWithMac = new MessageWithMac();
+                        messageWithMac.setMac(mac);
+                        messageWithMac.setMessage(message);
+                        try {
+                            client.send(messageWithMac);
+                        } catch (IOException e1) {
+                            e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                            JOptionPane.showMessageDialog(panel1, e1.getMessage(), "Network Exception", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                     MessageWithMac messageWithMac = new MessageWithMac();
                     messageWithMac.setMac("123");
                     messageWithMac.setMessage("hello world!");
@@ -87,9 +94,9 @@ public class SharedSecretSenderForm implements Form {
         frame.setVisible(true);
     }
 
-//    public void setSharedSecretCrypto(SharedSecretCrypto sharedSecretCrypto) {
-//        this.sharedSecretCrypto = sharedSecretCrypto;
-//    }
+    public void setSharedSecretCrypto(SharedSecretCrypto sharedSecretCrypto) {
+        this.sharedSecretCrypto = sharedSecretCrypto;
+    }
 
     public void setClient(Client client) {
         this.client = client;
