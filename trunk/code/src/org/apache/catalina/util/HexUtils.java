@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
  * @author Shanbo Li
  */
 
+@SuppressWarnings({"JavaDoc", "ForLoopReplaceableByForEach", "RedundantCast", "OctalInteger"})
 public final class HexUtils {
     // Code from Ajp11, from Apache's JServ
 
