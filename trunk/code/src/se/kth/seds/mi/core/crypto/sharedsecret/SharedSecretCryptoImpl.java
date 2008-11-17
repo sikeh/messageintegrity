@@ -17,7 +17,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
     private String message;
     private HashAlgorithm hashAlgorithm;
     public final Log logger = LogFactory.getLog(getClass());
-    public static final HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA_1;
+    public static final HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA1;
 
     /**
      * Create a crypto with a default hash algorithm by the given parameters<br/>

@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 public class KeyPairCryptoImpl implements KeyPairCrypto {
     private String message;
     private HashAlgorithm hashAlgorithm;
-    private static final HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA_1;
+    private static final HashAlgorithm DEFAULT_HASH_ALGORITHM = HashAlgorithm.SHA1;
 
     public final Log logger = LogFactory.getLog(getClass());
 
