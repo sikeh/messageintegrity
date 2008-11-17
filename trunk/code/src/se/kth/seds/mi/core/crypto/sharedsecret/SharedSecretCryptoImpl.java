@@ -103,7 +103,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
             logger.error("Can not get the algrothm, check if your JRE installed correctly...", e);
             throw new OperationFailedException(e);
         }
-        byte[] plainText = HexUtils.convert(sb.toString());
+        byte[] plainText = sb.toString().getBytes();
         byte[] hashCode = sha.digest(plainText);
         return HexUtils.convert(hashCode);
     }
