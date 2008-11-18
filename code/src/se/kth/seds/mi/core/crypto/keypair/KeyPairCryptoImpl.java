@@ -6,14 +6,7 @@ import org.apache.commons.logging.LogFactory;
 import se.kth.seds.mi.core.common.HashAlgorithm;
 import se.kth.seds.mi.core.exceptions.OperationFailedException;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
-import java.security.SignatureException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.security.*;
 
 /**
  * @author Shanbo Li
@@ -76,7 +69,7 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
 
         /* Update and sign the data */
         try {
-            dsa.update(HexUtils.convert(message));
+            dsa.update(message.getBytes());
         } catch (SignatureException e) {
             throw new OperationFailedException(e);
         }
@@ -112,7 +105,7 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
 
         /* Update and verify the data */
         try {
-            dsa.update(HexUtils.convert(message));
+            dsa.update(message.getBytes());
         } catch (SignatureException e) {
             throw new OperationFailedException(e);
         }
