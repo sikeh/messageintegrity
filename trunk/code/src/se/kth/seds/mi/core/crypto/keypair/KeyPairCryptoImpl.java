@@ -18,6 +18,9 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
 
     public final Log logger = LogFactory.getLog(getClass());
 
+    public KeyPairCryptoImpl() {
+    }
+
     public KeyPairCryptoImpl(String message) {
         this(message, DEFAULT_HASH_ALGORITHM);
     }
