@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd" default-autowire="byName">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName">
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -12,23 +13,26 @@
         </property>
     </bean>
 
+    <bean id="server" class="se.kth.seds.mi.communication.TcpServer" init-method="init" destroy-method="destory">
+        <property name="port" value="${tcp.port}"/>
+    </bean>
+
+    <bean id="client" class="se.kth.seds.mi.communication.TcpClient" init-method="init" destroy-method="destory"
+          depends-on="server">
+        <property name="host" value="${tcp.host}"/>
+        <property name="port" value="${tcp.port}"/>
+    </bean>
+
     <bean id="sharedSecretReceiverForm" class="se.kth.seds.mi.ui.SharedSecretReceiverForm">
         <property name="title" value="Encrption of MAC - using shared secret"/>
         <property name="sharedSecret" value="${secret.key}"/>
     </bean>
+
     <bean id="sharedSecretSenderForm" class="se.kth.seds.mi.ui.SharedSecretSenderForm">
         <property name="title" value="Encrption of MAC - using shared secret"/>
         <property name="sharedSecret" value="${secret.key}"/>
     </bean>
 
-    <bean id="server" class="se.kth.seds.mi.communication.TcpServer" init-method="init" destroy-method="destory">
-        <property name="port" value="${tcp.port}"/>
-    </bean>
-
-    <bean id="client" class="se.kth.seds.mi.communication.TcpClient" init-method="init" destroy-method="destory" depends-on="server">
-        <property name="host" value="${tcp.host}"/>
-        <property name="port" value="${tcp.port}"/>
-    </bean>
 
     <bean id="sharedSecretCrypto" class="se.kth.seds.mi.core.crypto.sharedsecret.SharedSecretCryptoImpl"/>
 
