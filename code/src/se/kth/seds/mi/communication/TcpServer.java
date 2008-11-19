@@ -4,10 +4,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import javax.swing.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +28,6 @@ public class TcpServer implements Server {
     }
 
     public void read(final JTextArea textAreaReceivedMessage, final JTextArea textAreaReceivedHash) throws IOException {
-//        while (true) {
         Socket socket = serverSocket.accept();
         logger.info("Client from " + socket.getRemoteSocketAddress() + " connected!");
         final ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());

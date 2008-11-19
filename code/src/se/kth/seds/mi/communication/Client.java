@@ -3,13 +3,15 @@ package se.kth.seds.mi.communication;
 import java.io.IOException;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sike Huang
- * Date: Nov 16, 2008
- * Time: 7:20:12 PM
- * To change this template use File | Settings | File Templates.
+ * Presents a communication client
+ * @author Sike Huang
  */
 public interface Client {
-    public void init() throws IOException;
+
+    /**
+     * Sends object over the communicaion channel
+     * @param obj the {@code java.io.Serializable} object to be sent
+     * @throws IOException failed in sending, i.e. can't push object into communication channel
+     */
     public void send(Object obj) throws IOException;
 }

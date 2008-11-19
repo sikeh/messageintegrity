@@ -3,11 +3,7 @@ package se.kth.seds.mi.communication;
 import java.io.Serializable;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sike Huang
- * Date: Nov 16, 2008
- * Time: 6:54:35 PM
- * To change this template use File | Settings | File Templates.
+ * The {@code java.io.Serializable} object sent over communication channel, it encapsulates message itself and its corresponding MAC
  */
 public class MessageWithMac implements Serializable {
     private String message;

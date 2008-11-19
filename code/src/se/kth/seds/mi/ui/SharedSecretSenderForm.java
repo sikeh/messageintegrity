@@ -1,16 +1,15 @@
 package se.kth.seds.mi.ui;
 
-import se.kth.seds.mi.core.crypto.sharedsecret.SharedSecretCrypto;
-import se.kth.seds.mi.core.common.HashAlgorithm;
-import se.kth.seds.mi.core.exceptions.OperationFailedException;
 import se.kth.seds.mi.communication.Client;
 import se.kth.seds.mi.communication.MessageWithMac;
+import se.kth.seds.mi.core.common.HashAlgorithm;
+import se.kth.seds.mi.core.crypto.sharedsecret.SharedSecretCrypto;
+import se.kth.seds.mi.core.exceptions.OperationFailedException;
 
 import javax.swing.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,6 +19,7 @@ import java.security.NoSuchAlgorithmException;
  * To change this template use File | Settings | File Templates.
  */
 public class SharedSecretSenderForm implements Form {
+    // ui properties
     private JPanel panel1;
     private JTextField textFieldSharedSecret;
     private JTextArea textAreaMessage;
@@ -28,19 +28,17 @@ public class SharedSecretSenderForm implements Form {
     private JButton hashButton;
     private JButton sendButton;
 
-    private static SharedSecretCrypto sharedSecretCrypto;
-    private static Client client;
-
-    private static String title;
-    private static String sharedSecret;
+    // injected properties
+    private SharedSecretCrypto sharedSecretCrypto;
+    private Client client;
+    private String title;
+    private String sharedSecret;
 
     public SharedSecretSenderForm() {
 
         ComboBoxModel comboBoxModel = new DefaultComboBoxModel(HashAlgorithm.values());
         comboBoxHashFunc.setModel(comboBoxModel);
         
-        textFieldSharedSecret.setText(sharedSecret);
-
         hashButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 sharedSecret = textFieldSharedSecret.getText();
@@ -51,6 +49,7 @@ public class SharedSecretSenderForm implements Form {
                 } else if (message.trim().equals("")) {
                     JOptionPane.showMessageDialog(panel1, "message is required!", "Validation Error", JOptionPane.ERROR_MESSAGE);
                 } else {
+                    // calculate MAC on client side, and send messsage together with MAC to server
                     sharedSecretCrypto.setMessage(message);
                     sharedSecretCrypto.setSharedSecret(sharedSecret);
                     sharedSecretCrypto.setHashAlgorithm(algorithm);
@@ -74,8 +73,8 @@ public class SharedSecretSenderForm implements Form {
                         }
                     }
                     MessageWithMac messageWithMac = new MessageWithMac();
-                    messageWithMac.setMac("123");
-                    messageWithMac.setMessage("hello world!");
+                    messageWithMac.setMac(mac);
+                    messageWithMac.setMessage(message);
                     try {
                         client.send(messageWithMac);
                     } catch (IOException e1) {
@@ -88,7 +87,11 @@ public class SharedSecretSenderForm implements Form {
 
     public void show() {
         JFrame frame = new JFrame(title);
-        frame.setContentPane(new SharedSecretSenderForm().panel1);
+        SharedSecretSenderForm sharedSecretSenderForm = new SharedSecretSenderForm();
+        sharedSecretSenderForm.textFieldSharedSecret.setText(sharedSecret);        
+        sharedSecretSenderForm.setClient(client);
+        sharedSecretSenderForm.setSharedSecretCrypto(sharedSecretCrypto);
+        frame.setContentPane(sharedSecretSenderForm.panel1);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         frame.setVisible(true);
