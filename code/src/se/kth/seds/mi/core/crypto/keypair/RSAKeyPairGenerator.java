@@ -22,7 +22,7 @@ public class RSAKeyPairGenerator {
              KeyPair keyPair = keyPairGenerator.genKeyPair();
              return new RSAKeyPair(keyPair);
         } catch (NoSuchAlgorithmException e) {
-             Log logger = LogFactory.getLog(RSAKeyPairGenerator.class.getName());
+             final Log logger = LogFactory.getLog(RSAKeyPairGenerator.class.getName());
             logger.error("Can not get RSA algrothm, check if your JRE installed correctly...",e);
             throw new OperationFailedException(e);
         }

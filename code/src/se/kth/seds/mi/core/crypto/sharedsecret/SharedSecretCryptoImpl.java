@@ -26,7 +26,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
      * @param sharedSecret the shared secret
      * @param message      the message
      */
-    public SharedSecretCryptoImpl(String sharedSecret, String message) {
+    public SharedSecretCryptoImpl(final String sharedSecret, final String message) {
         this(sharedSecret, message, DEFAULT_HASH_ALGORITHM);
     }
 
@@ -37,7 +37,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
      * @param message       message
      * @param hashAlgorithm the name of the algorithm requested.
      */
-    public SharedSecretCryptoImpl(String sharedSecret, String message, HashAlgorithm hashAlgorithm) {
+    public SharedSecretCryptoImpl(final String sharedSecret, final String message, final HashAlgorithm hashAlgorithm) {
         this.setSharedSecret(sharedSecret);
         this.setMessage(message);
         this.setHashAlgorithm(hashAlgorithm);
@@ -56,7 +56,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
     /**
      * {@inheritDoc}
      */
-    public void setSharedSecret(String sharedSecret) {
+    public void setSharedSecret(final String sharedSecret) {
         if (sharedSecret == null) throw new NullPointerException("sharedSecret could not be null");
         this.sharedSecret = sharedSecret;
     }
@@ -71,7 +71,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
     /**
      * {@inheritDoc}
      */
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         if (message == null) throw new NullPointerException("message could not be null");
         this.message = message;
     }
@@ -86,7 +86,7 @@ public class SharedSecretCryptoImpl implements SharedSecretCrypto {
     /**
      * {@inheritDoc}
      */
-    public void setHashAlgorithm(HashAlgorithm hashAlgorithm) {
+    public void setHashAlgorithm(final HashAlgorithm hashAlgorithm) {
         if (hashAlgorithm == null) throw new NullPointerException("Hash algorithm can not be null");
         this.hashAlgorithm = hashAlgorithm;
     }
