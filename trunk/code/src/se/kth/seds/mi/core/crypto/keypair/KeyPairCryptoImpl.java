@@ -21,11 +21,11 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
     public KeyPairCryptoImpl() {
     }
 
-    public KeyPairCryptoImpl(String message) {
+    public KeyPairCryptoImpl(final String message) {
         this(message, DEFAULT_HASH_ALGORITHM);
     }
 
-    public KeyPairCryptoImpl(String message, HashAlgorithm hashAlgorithm) {
+    public KeyPairCryptoImpl(final String message, final HashAlgorithm hashAlgorithm) {
         this.setMessage(message);
         this.setHashAlgorithm(hashAlgorithm);
     }
@@ -34,7 +34,7 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         if (message == null)
             throw new NullPointerException("message can not be null");
 
@@ -45,14 +45,14 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
         return hashAlgorithm;
     }
 
-    public void setHashAlgorithm(HashAlgorithm hashAlgorithm) {
+    public void setHashAlgorithm(final HashAlgorithm hashAlgorithm) {
         if (hashAlgorithm == null)
             throw new NullPointerException("Hash Algorithm can not be null");
 
         this.hashAlgorithm = hashAlgorithm;
     }
 
-    public String sign(PrivateKey privateKey) throws OperationFailedException {
+    public String sign(final PrivateKey privateKey) throws OperationFailedException {
         if (privateKey == null) throw new NullPointerException("Private key can not be null");
         Signature dsa;
         try {
@@ -86,7 +86,7 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
         }
     }
 
-    public boolean verify(PublicKey publicKey, String mac) throws OperationFailedException {
+    public boolean verify(final PublicKey publicKey, final String mac) throws OperationFailedException {
         if (publicKey == null) throw new NullPointerException("public key can not be null");
         if (mac == null) throw new NullPointerException("MAC can not be null");
 

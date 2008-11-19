@@ -11,10 +11,10 @@ public enum HashAlgorithm {
     SHA384("SHA-384", "SHA384withRSA"),
     SHA512("SHA-512", "SHA512withRSA"),;
 
-    private String keyPairAlgorithm;
-    private String sharedSecretAlgorithm;
+    private final String keyPairAlgorithm;
+    private final String sharedSecretAlgorithm;
 
-    HashAlgorithm(String sharedSecretAlgorithm, String keyPairAlgorithm) {
+    HashAlgorithm(final String sharedSecretAlgorithm, final String keyPairAlgorithm) {
         this.sharedSecretAlgorithm = sharedSecretAlgorithm;
         this.keyPairAlgorithm = keyPairAlgorithm;
     }
