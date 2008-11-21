@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd"
-       default-autowire="byName">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -23,17 +22,22 @@
         <property name="port" value="${tcp.port}"/>
     </bean>
 
-    <bean id="sharedSecretReceiverForm" class="se.kth.seds.mi.ui.SharedSecretReceiverForm">
-        <property name="title" value="Encrption of MAC - using shared secret"/>
-        <property name="sharedSecret" value="${secret.key}"/>
-    </bean>
-
-    <bean id="sharedSecretSenderForm" class="se.kth.seds.mi.ui.SharedSecretSenderForm">
-        <property name="title" value="Encrption of MAC - using shared secret"/>
-        <property name="sharedSecret" value="${secret.key}"/>
-    </bean>
-
-
     <bean id="sharedSecretCrypto" class="se.kth.seds.mi.core.crypto.sharedsecret.SharedSecretCryptoImpl"/>
+
+    <bean id="keyPairCrypto" class="se.kth.seds.mi.core.crypto.keypair.KeyPairCryptoImpl"/>
+
+    <bean id="sharedSecretReceiverFrame" class="se.kth.seds.mi.ui.SharedSecretReceiverFrame" init-method="initComponents">
+        <property name="title" value="Shared Secret"/>
+        <property name="sharedSecret" value="${secret.key}"/>
+        <property name="server" ref="server"/>
+        <property name="sharedSecretCrypto" ref="sharedSecretCrypto"/>
+    </bean>
+
+    <bean id="sharedSecretSenderFrame" class="se.kth.seds.mi.ui.SharedSecretSenderFrame" init-method="initComponents">
+        <property name="title" value="Shared Secret"/>
+        <property name="sharedSecret" value="${secret.key}"/>
+        <property name="sharedSecretCrypto" ref="sharedSecretCrypto"/>
+        <property name="client" ref="client"/>
+    </bean>
 
 </beans>
