@@ -52,7 +52,7 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
         this.hashAlgorithm = hashAlgorithm;
     }
 
-    public String sign(final PrivateKey privateKey) throws OperationFailedException {
+    public String hashAndSign(final PrivateKey privateKey) throws OperationFailedException {
         if (privateKey == null) throw new NullPointerException("Private key can not be null");
         Signature dsa;
         try {
@@ -70,7 +70,7 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
             throw new OperationFailedException(e);
         }
 
-        /* Update and sign the data */
+        /* Update and hashAndSign the data */
         try {
             dsa.update(message.getBytes());
         } catch (SignatureException e) {
@@ -81,7 +81,7 @@ public class KeyPairCryptoImpl implements KeyPairCrypto {
             byte[] sig = dsa.sign();
             return HexUtils.convert(sig);
         } catch (SignatureException e) {
-            logger.error("SignatureException, sign failed", e);
+            logger.error("SignatureException, hashAndSign failed", e);
             throw new OperationFailedException(e);
         }
     }
