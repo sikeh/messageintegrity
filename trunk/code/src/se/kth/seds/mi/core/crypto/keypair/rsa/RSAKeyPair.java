@@ -1,4 +1,4 @@
-package se.kth.seds.mi.core.crypto.keypair;
+package se.kth.seds.mi.core.crypto.keypair.rsa;
 
 import org.apache.catalina.util.HexUtils;
 
@@ -6,10 +6,12 @@ import java.security.KeyPair;
 import java.security.PublicKey;
 import java.security.PrivateKey;
 
+import se.kth.seds.mi.core.crypto.keypair.KeyPairIF;
+
 /**
  * @author Shanbo Li
  */
-public class RSAKeyPair {
+public class RSAKeyPair implements KeyPairIF {
     private final KeyPair keyPair;
 
     public RSAKeyPair(KeyPair keyPair) {

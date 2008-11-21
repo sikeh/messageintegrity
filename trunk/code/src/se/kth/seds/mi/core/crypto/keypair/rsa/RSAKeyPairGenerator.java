@@ -1,4 +1,4 @@
-package se.kth.seds.mi.core.crypto.keypair;
+package se.kth.seds.mi.core.crypto.keypair.rsa;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,6 +8,8 @@ import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 
 import se.kth.seds.mi.core.exceptions.OperationFailedException;
+import se.kth.seds.mi.core.crypto.keypair.KeyPairGeneratorIF;
+import se.kth.seds.mi.core.crypto.keypair.KeyPairIF;
 
 /**
  * A key pair generator.
@@ -15,8 +17,9 @@ import se.kth.seds.mi.core.exceptions.OperationFailedException;
  *
  * @author Shanbo Li
  */
-public class RSAKeyPairGenerator {
-    public static RSAKeyPair createKeyPair() throws OperationFailedException {
+public class RSAKeyPairGenerator implements KeyPairGeneratorIF {
+
+    public KeyPairIF createKeyPair() throws OperationFailedException {
          try {
              KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
              KeyPair keyPair = keyPairGenerator.genKeyPair();
