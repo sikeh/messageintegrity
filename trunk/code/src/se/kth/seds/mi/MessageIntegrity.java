@@ -2,6 +2,7 @@ package se.kth.seds.mi;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.BeanFactory;
 import se.kth.seds.mi.ui.Form;
 
 /**
@@ -13,12 +14,7 @@ import se.kth.seds.mi.ui.Form;
  */
 public class MessageIntegrity {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
-
-        Form sharedSecretReceiverForm = (Form) context.getBean("sharedSecretReceiverForm");
-        sharedSecretReceiverForm.show();
-
-        Form sharedSecretSenderForm = (Form) context.getBean("sharedSecretSenderForm");
-        sharedSecretSenderForm.show();
+        Launcher launcher = new Launcher();
+        launcher.lunch();
     }
 }
