@@ -45,7 +45,7 @@ public interface KeyPairCrypto {
      * @return Message authentication code
      * @throws OperationFailedException something wrong when sign the message. For detail, see exception message.
      */
-    public String sign(PrivateKey privateKey) throws OperationFailedException;
+    public String hashAndSign(PrivateKey privateKey) throws OperationFailedException;
 
     /**
      * Verify a message according the public key and mac
