@@ -73,10 +73,10 @@ public class SharedSecretSenderFrame extends JFrame {
         jTextArea_message.setLineWrap(true);
         jScrollPane1.setViewportView(jTextArea_message);
 
-        jTextField_sharedSecret.setText("Shared Secret:"); // NOI18N
+        jTextField_sharedSecret.setText(""); // NOI18N
         jTextField_sharedSecret.setName("jTextField_sharedSecret"); // NOI18N
 
-        jLabel_sharedSecret.setText(""); // NOI18N
+        jLabel_sharedSecret.setText("Shared Secret:"); // NOI18N
         jLabel_sharedSecret.setName("jLabel_sharedSecret"); // NOI18N
 
         jComboBox_hashFunc.setModel(new javax.swing.DefaultComboBoxModel(new String[]{"Item 1", "Item 2", "Item 3", "Item 4"}));
