@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.security.PublicKey;
+
+import se.kth.seds.mi.ui.KeyPairReceiverFrame;
+import se.kth.seds.mi.ui.SharedSecretReceiverFrame;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +20,7 @@ import java.net.Socket;
  * Time: 7:32:49 PM
  * To change this template use File | Settings | File Templates.
  */
-public class TcpServer implements Server {
+public class SharedSecretTcpServer implements Server {
     private Log logger = LogFactory.getLog(getClass());
 
     private ServerSocket serverSocket;
@@ -27,7 +31,10 @@ public class TcpServer implements Server {
         logger.info("Server ready, listenning on: " + serverSocket);
     }
 
-    public void read(final JTextArea textAreaReceivedMessage, final JTextArea textAreaReceivedHash) throws IOException {
+    /**
+     * {@inheritDoc}
+     */
+    public void read(final JFrame frame) throws IOException {
         Socket socket = serverSocket.accept();
         logger.info("Client from " + socket.getRemoteSocketAddress() + " connected!");
         final ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -37,8 +44,9 @@ public class TcpServer implements Server {
                     try {
                         MessageWithMac messageWithMac = (MessageWithMac) objectInputStream.readObject();
                         logger.info("received Message: " + messageWithMac.getMessage() + ", with MAC: " + messageWithMac.getMac());
-                        textAreaReceivedMessage.setText(messageWithMac.getMessage());
-                        textAreaReceivedHash.setText(messageWithMac.getMac());
+                        SharedSecretReceiverFrame receiverFrame = (SharedSecretReceiverFrame) frame;
+                        receiverFrame.setReceivedMessage(messageWithMac.getMessage());
+                        receiverFrame.setReceivedMac(messageWithMac.getMac());
                     } catch (IOException e) {
                         e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
                     } catch (ClassNotFoundException e) {

@@ -10,7 +10,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * To change this template use File | Settings | File Templates.
  */
 public class Launcher {
-    public void lunch() {
-        new ClassPathXmlApplicationContext("spring-config.xml");        
+    public void lunchSharedSecret() {
+        new ClassPathXmlApplicationContext("/spring-config-sharedsecret.xml");
+    }
+
+    public void lunchKeyPair() {
+        new ClassPathXmlApplicationContext("/spring-config-keypair.xml");
     }
 }
