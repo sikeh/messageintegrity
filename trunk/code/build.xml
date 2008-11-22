@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="messageintegrity" default="all">
+  
+  
+  <property file="build.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+
+  <property name="skip.tests" value="true"/>
+
+  
+  <!-- The task requires the following libraries from IntelliJ IDEA distribution: -->
+  <!--   javac2.jar; jdom.jar; asm.jar; asm-commons.jar -->
+  <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="library.javac2.classpath"/>
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="128m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/.pyc/**"/>
+    <exclude name="**/.pyo/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/.git/**"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <include name="**/?*.properties"/>
+    <include name="**/?*.xml"/>
+    <include name="**/?*.gif"/>
+    <include name="**/?*.png"/>
+    <include name="**/?*.jpeg"/>
+    <include name="**/?*.jpg"/>
+    <include name="**/?*.html"/>
+    <include name="**/?*.dtd"/>
+    <include name="**/?*.tld"/>
+    <include name="**/?*.ftl"/>
+  </patternset>
+  
+  
+  <!-- Project Libraries -->
+  
+  <path id="library.apache-common-logging.classpath">
+    <pathelement location="${basedir}/lib/commons-logging.jar"/>
+  </path>
+  
+  <path id="library.javac2.classpath">
+    <pathelement location="${basedir}/lib/ideaui/asm-commons.jar"/>
+    <pathelement location="${basedir}/lib/ideaui/asm.jar"/>
+    <pathelement location="${basedir}/lib/ideaui/javac2.jar"/>
+    <pathelement location="${basedir}/lib/ideaui/jdom.jar"/>
+  </path>
+  
+  <path id="library.spring.classpath">
+    <pathelement location="${basedir}/lib/spring.jar"/>
+  </path>
+  
+  
+  <!-- Application Server Libraries -->
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module MessageIntegrity -->
+  
+  <dirname property="module.messageintegrity.basedir" file="${ant.file}"/>
+  
+  
+  
+  <property name="compiler.args.messageintegrity" value="${compiler.args}"/>
+  
+  <property name="messageintegrity.output.dir" value="${module.messageintegrity.basedir}/out/production/MessageIntegrity"/>
+  <property name="messageintegrity.testoutput.dir" value="${module.messageintegrity.basedir}/out/test/MessageIntegrity"/>
+  
+  <path id="messageintegrity.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="messageintegrity.module.classpath">
+    <path refid="library.spring.classpath"/>
+    <path refid="library.apache-common-logging.classpath"/>
+    <path refid="library.javac2.classpath"/>
+  </path>
+  
+  <path id="messageintegrity.runtime.module.classpath">
+    <pathelement location="${messageintegrity.output.dir}"/>
+    <pathelement location="${messageintegrity.testoutput.dir}"/>
+    <path refid="library.spring.classpath"/>
+    <path refid="library.apache-common-logging.classpath"/>
+    <path refid="library.javac2.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.messageintegrity">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.messageintegrity">
+    <patternset refid="excluded.from.module.messageintegrity"/>
+  </patternset>
+  
+  <path id="messageintegrity.module.sourcepath">
+    <dirset dir="${module.messageintegrity.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.messageintegrity" depends="compile.module.messageintegrity.production,compile.module.messageintegrity.tests" description="Compile module MessageIntegrity"/>
+  
+  <target name="compile.module.messageintegrity.production" description="Compile module MessageIntegrity; production classes">
+    <mkdir dir="${messageintegrity.output.dir}"/>
+    <javac2 destdir="${messageintegrity.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
+      <compilerarg line="${compiler.args.messageintegrity}"/>
+      <bootclasspath refid="messageintegrity.module.bootclasspath"/>
+      <classpath refid="messageintegrity.module.classpath"/>
+      <src refid="messageintegrity.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.messageintegrity"/>
+    </javac2>
+    
+    <copy todir="${messageintegrity.output.dir}">
+      <fileset dir="${module.messageintegrity.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.messageintegrity.tests" depends="compile.module.messageintegrity.production" description="compile module MessageIntegrity; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.messageintegrity" description="cleanup module">
+    <delete dir="${messageintegrity.output.dir}"/>
+    <delete dir="${messageintegrity.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.messageintegrity" description="cleanup all"/>
+  
+  <target name="all" depends="init, clean, compile.module.messageintegrity" description="build all"/>
+
+  <target name="run" depends="all" description="run message integrity">
+        <java classname="${main.class}" fork="true">
+            <arg line="${program.parameters}"/>
+            <classpath refid="messageintegrity.runtime.module.classpath"/>
+         </java>
+  </target>
+</project>
