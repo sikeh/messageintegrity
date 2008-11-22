@@ -8,9 +8,7 @@
   <property name="skip.tests" value="true"/>
 
   
-  <!-- The task requires the following libraries from IntelliJ IDEA distribution: -->
-  <!--   javac2.jar; jdom.jar; asm.jar; asm-commons.jar -->
-  <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="library.javac2.classpath"/>
+
   <!-- Compiler options -->
   
   <property name="compiler.debug" value="on"/>
@@ -50,13 +48,6 @@
     <pathelement location="${basedir}/lib/commons-logging.jar"/>
   </path>
   
-  <path id="library.javac2.classpath">
-    <pathelement location="${basedir}/lib/ideaui/asm-commons.jar"/>
-    <pathelement location="${basedir}/lib/ideaui/asm.jar"/>
-    <pathelement location="${basedir}/lib/ideaui/javac2.jar"/>
-    <pathelement location="${basedir}/lib/ideaui/jdom.jar"/>
-  </path>
-  
   <path id="library.spring.classpath">
     <pathelement location="${basedir}/lib/spring.jar"/>
   </path>
@@ -85,7 +76,6 @@
   <path id="messageintegrity.module.classpath">
     <path refid="library.spring.classpath"/>
     <path refid="library.apache-common-logging.classpath"/>
-    <path refid="library.javac2.classpath"/>
   </path>
   
   <path id="messageintegrity.runtime.module.classpath">
@@ -93,7 +83,6 @@
     <pathelement location="${messageintegrity.testoutput.dir}"/>
     <path refid="library.spring.classpath"/>
     <path refid="library.apache-common-logging.classpath"/>
-    <path refid="library.javac2.classpath"/>
   </path>
   
   
@@ -116,14 +105,7 @@
   
   <target name="compile.module.messageintegrity.production" description="Compile module MessageIntegrity; production classes">
     <mkdir dir="${messageintegrity.output.dir}"/>
-    <javac2 destdir="${messageintegrity.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true">
-      <compilerarg line="${compiler.args.messageintegrity}"/>
-      <bootclasspath refid="messageintegrity.module.bootclasspath"/>
-      <classpath refid="messageintegrity.module.classpath"/>
-      <src refid="messageintegrity.module.sourcepath"/>
-      <patternset refid="excluded.from.compilation.messageintegrity"/>
-    </javac2>
-    
+
     <copy todir="${messageintegrity.output.dir}">
       <fileset dir="${module.messageintegrity.basedir}/src">
         <patternset refid="compiler.resources"/>

@@ -284,16 +284,6 @@
       <JAVADOC />
       <SOURCES />
     </library>
-    <library name="javac2">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/ideaui/jdom.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/ideaui/asm-commons.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/ideaui/asm.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/ideaui/javac2.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
   </component>
 </project>
 
