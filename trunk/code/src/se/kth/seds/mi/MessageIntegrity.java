@@ -1,10 +1,5 @@
 package se.kth.seds.mi;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.beans.factory.BeanFactory;
-import se.kth.seds.mi.ui.Form;
-
 /**
  * Created by IntelliJ IDEA.
  * User: Sike Huang
@@ -14,7 +9,16 @@ import se.kth.seds.mi.ui.Form;
  */
 public class MessageIntegrity {
     public static void main(String[] args) {
+        if (args.length != 1) {
+            System.out.println("Usage: java ");
+        }
         Launcher launcher = new Launcher();
-        launcher.lunch();
+        if (args[0].equalsIgnoreCase("sharedsecret")) {
+            launcher.lunchSharedSecret();
+        } else if (args[0].equalsIgnoreCase("keypair")) {
+            launcher.lunchKeyPair();
+        } else {
+            System.out.println("Invalid parameter");
+        }
     }
 }

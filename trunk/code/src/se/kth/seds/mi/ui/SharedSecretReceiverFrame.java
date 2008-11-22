@@ -6,7 +6,6 @@ import se.kth.seds.mi.core.exceptions.OperationFailedException;
 import se.kth.seds.mi.communication.Server;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 /**
@@ -18,17 +17,15 @@ import java.io.IOException;
  */
 public class SharedSecretReceiverFrame extends javax.swing.JFrame {
 
-    private String title;
     private String sharedSecret;
     private Server server;
     private SharedSecretCrypto sharedSecretCrypto;
 
+    private String receivedMessage;
+    private String receivedMac;
+
     public void setSharedSecret(String sharedSecret) {
         this.sharedSecret = sharedSecret;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void setServer(Server server) {
@@ -37,6 +34,16 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
 
     public void setSharedSecretCrypto(SharedSecretCrypto sharedSecretCrypto) {
         this.sharedSecretCrypto = sharedSecretCrypto;
+    }
+
+    public void setReceivedMac(String receivedMac) {
+        jTextArea_receivedMac.setText(receivedMac);
+        this.receivedMac = receivedMac;
+    }
+
+    public void setReceivedMessage(String receivedMessage) {
+        jTextArea_receivedMessage.setText(receivedMessage);
+        this.receivedMessage = receivedMessage;
     } /** Creates new form SharedSecretReceiverFrame */
 //    public SharedSecretReceiverFrame() {
 //        initComponents();
@@ -66,7 +73,7 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
         jTextArea_generatedMac = new javax.swing.JTextArea();
         jLabel_receivedMac = new javax.swing.JLabel();
         jLabel_generatedMac = new javax.swing.JLabel();
-        jButton_hash = new javax.swing.JButton();
+        jButton_verify = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -122,11 +129,11 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
         jLabel_generatedMac.setText("Generated MAC:"); // NOI18N
         jLabel_generatedMac.setName("jLabel_generatedMac"); // NOI18N
 
-        jButton_hash.setText("Hash"); // NOI18N
-        jButton_hash.setName("jButton_hash"); // NOI18N
-        jButton_hash.addActionListener(new java.awt.event.ActionListener() {
+        jButton_verify.setText("Verify"); // NOI18N
+        jButton_verify.setName("jButton_verify"); // NOI18N
+        jButton_verify.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_hashActionPerformed(evt);
+                jButton_verifyActionPerformed(evt);
             }
         });
 
@@ -148,7 +155,7 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel_generatedMac))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton_hash)
+                                .addComponent(jButton_verify)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,27 +190,24 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
                                 .addComponent(jLabel_generatedMac)
                                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jButton_hash)
+                        .addComponent(jButton_verify)
                         .addContainerGap(17, Short.MAX_VALUE))
         );
 
         jComboBox_hashFunc.setModel(new DefaultComboBoxModel(HashAlgorithm.values()));
-        setTitle(title);
         jTextField_sharedSecret.setText(sharedSecret);
 
         pack();
         setVisible(true);
 
         try {
-            server.read(jTextArea_receivedMessage, jTextArea_receivedMac);
+            server.read(this);
         } catch (IOException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }// </editor-fold>
 
-    private void jButton_hashActionPerformed(java.awt.event.ActionEvent evt) {
-        String receivedMac = jTextArea_receivedMac.getText();
-        String receivedMessage = jTextArea_receivedMessage.getText();
+    private void jButton_verifyActionPerformed(java.awt.event.ActionEvent evt) {
         String sharedSecret = jTextField_sharedSecret.getText();
         if (receivedMac.trim().equals("")) {
             JOptionPane.showMessageDialog(this, "No message has been received", "Warning", JOptionPane.WARNING_MESSAGE);
@@ -218,9 +222,9 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
             String mac = sharedSecretCrypto.createMAC();
             jTextArea_generatedMac.setText(mac);
             if (mac.equals(receivedMac)) {
-                JOptionPane.showMessageDialog(this, "Valid, hashes match", "Mesage Integrity", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Message integrity is valid", "Verification", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Invalid, hashes contradict, please check your shared secert and hash func", "Mesage Integrity", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Message integrity is invalid! (hint: please check your shared secert and hash func)", "Verification", JOptionPane.ERROR_MESSAGE);
             }
         } catch (OperationFailedException e1) {
             e1.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -230,7 +234,7 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify
-    private javax.swing.JButton jButton_hash;
+    private javax.swing.JButton jButton_verify;
     private javax.swing.JComboBox jComboBox_hashFunc;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel_generatedMac;

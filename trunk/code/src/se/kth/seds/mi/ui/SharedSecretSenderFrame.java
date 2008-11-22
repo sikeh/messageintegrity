@@ -17,7 +17,6 @@ import java.io.IOException;
  * To change this template use File | Settings | File Templates.
  */
 public class SharedSecretSenderFrame extends JFrame {
-    private String title;
     private String sharedSecret;
     private Client client;
     private SharedSecretCrypto sharedSecretCrypto;
@@ -28,10 +27,6 @@ public class SharedSecretSenderFrame extends JFrame {
 
     public void setSharedSecret(String sharedSecret) {
         this.sharedSecret = sharedSecret;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public void setSharedSecretCrypto(SharedSecretCrypto sharedSecretCrypto) {
@@ -96,6 +91,7 @@ public class SharedSecretSenderFrame extends JFrame {
         jTextArea_generatedMac.setRows(5);
         jTextArea_generatedMac.setName("jTextArea_generatedMac"); // NOI18N
         jTextArea_generatedMac.setLineWrap(true);
+        jTextArea_generatedMac.setEditable(false);
         jScrollPane2.setViewportView(jTextArea_generatedMac);
 
         jLabel_generatedMac.setText("Generated MAC:"); // NOI18N
@@ -164,7 +160,6 @@ public class SharedSecretSenderFrame extends JFrame {
         );
 
         jComboBox_hashFunc.setModel(new DefaultComboBoxModel(HashAlgorithm.values()));
-        setTitle(title);
         jTextField_sharedSecret.setText(sharedSecret);
 
         pack();

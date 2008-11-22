@@ -2,17 +2,17 @@ package se.kth.seds.mi.communication;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.security.PublicKey;
 
 /**
  * Presents a communication server
  * @author Sike Huang
  */
 public interface Server {
+
     /**
-     * Reads data from communication channel sent from client
-     * @param textAreaReceivedMessage UI field that will be updated with value of received message from client
-     * @param textAreaReceivedHash UI field that will be updated with value of received MAC from client
-     * @throws IOException failed in reading data
+     * Reads object sent from client from communicaion channel
+     * @param frame UI frame used to show the received object
      */
-    public void read(JTextArea textAreaReceivedMessage, JTextArea textAreaReceivedHash) throws IOException;
+    public void read(JFrame frame) throws IOException;
 }
