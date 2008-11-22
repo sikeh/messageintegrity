@@ -11,10 +11,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class Launcher {
     public void lunchSharedSecret() {
-        new ClassPathXmlApplicationContext("/spring-config-sharedsecret.xml");
+        new ClassPathXmlApplicationContext("/spring-config/spring-config-sharedsecret.xml");
     }
 
     public void lunchKeyPair() {
-        new ClassPathXmlApplicationContext("/spring-config-keypair.xml");
+        new ClassPathXmlApplicationContext("/spring-config/spring-config-keypair.xml");
     }
 }
