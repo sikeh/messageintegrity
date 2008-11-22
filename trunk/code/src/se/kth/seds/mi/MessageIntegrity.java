@@ -10,7 +10,7 @@ package se.kth.seds.mi;
 public class MessageIntegrity {
     public static void main(String[] args) {
         if (args.length != 1) {
-            System.out.println("Usage: java ");
+            System.out.println("please give a parameter, either keypair or sharedsecret ");
         }
         Launcher launcher = new Launcher();
         if (args[0].equalsIgnoreCase("sharedsecret")) {
