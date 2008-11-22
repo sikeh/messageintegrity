@@ -209,7 +209,7 @@ public class SharedSecretReceiverFrame extends javax.swing.JFrame {
 
     private void jButton_verifyActionPerformed(java.awt.event.ActionEvent evt) {
         String sharedSecret = jTextField_sharedSecret.getText();
-        if (receivedMac.trim().equals("")) {
+        if (receivedMac == null || receivedMac.trim().equals("")) {
             JOptionPane.showMessageDialog(this, "No message has been received", "Warning", JOptionPane.WARNING_MESSAGE);
             return;
         }
