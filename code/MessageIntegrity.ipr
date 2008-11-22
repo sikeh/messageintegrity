@@ -265,7 +265,7 @@
     <option name="myVersion" value="124" />
   </component>
   <component name="VcsDirectoryMappings">
-    <mapping directory="" vcs="" />
+    <mapping directory="" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/src" vcs="svn" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
