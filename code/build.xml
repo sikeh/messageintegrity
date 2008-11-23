@@ -2,11 +2,9 @@
 <project name="messageintegrity" default="all">
 
 
-  <property file="build.properties"/>
-  <!-- Uncomment the following property if no tests compilation is needed -->
-  <!--
+  <property file="build.properties"/>  
   <property name="skip.tests" value="true"/>
-   -->
+
 
   <!-- Compiler options -->
 
