@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <description>Load configuration properties.</description>
         <property name="locations">
             <list>
                 <value>network.properties</value>
@@ -12,25 +13,33 @@
     </bean>
 
     <bean id="server" class="se.kth.seds.mi.communication.KeyPairTcpServer" init-method="init" destroy-method="destory">
+        <description>Communication Server</description>
         <property name="port" value="${tcp.port}"/>
     </bean>
 
     <bean id="client" class="se.kth.seds.mi.communication.TcpClient" init-method="init" destroy-method="destory">
+        <description>Communication Client</description>
         <property name="host" value="${tcp.host}"/>
         <property name="port" value="${tcp.port}"/>
     </bean>
 
-    <bean id="keyPairCrypto" class="se.kth.seds.mi.core.crypto.keypair.KeyPairCryptoImpl"/>
+    <bean id="keyPairCrypto" class="se.kth.seds.mi.core.crypto.keypair.KeyPairCryptoImpl">
+        <description>Crypto module for shared secret.</description>
+    </bean>
 
-    <bean id="rsaKeyPairGenerator" class="se.kth.seds.mi.core.crypto.keypair.rsa.RSAKeyPairGenerator"/>
+    <bean id="rsaKeyPairGenerator" class="se.kth.seds.mi.core.crypto.keypair.rsa.RSAKeyPairGenerator">
+        <description>RSA key pair generator</description>
+    </bean>
 
     <bean id="keyPairReceiverFrame" class="se.kth.seds.mi.ui.KeyPairReceiverFrame" init-method="initComponents">
+        <description>UI of key pair receiver</description>
         <property name="title" value="Key Pair"/>
         <property name="server" ref="server"/>
         <property name="keyPairCrypto" ref="keyPairCrypto"/>
     </bean>
 
     <bean id="keyPairSecretSenderFrame" class="se.kth.seds.mi.ui.KeyPairSenderFrame" init-method="initComponents">
+        <description>UI of key pair sender</description>
         <property name="title" value="Key Pair"/>
         <property name="client" ref="client"/>
         <property name="keyPairCrypto" ref="keyPairCrypto"/>
